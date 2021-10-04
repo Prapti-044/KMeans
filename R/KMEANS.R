@@ -58,6 +58,3 @@ apply.kmeans <- function(data.mat, centers, iter.max = 10) {
   class(result) <- append(class(result),"result")
   return(result);
 }
-
-## quiets concerns of R CMD check re: the .'s that appear in pipelines
-if(getRversion() >= "2.15.1")  utils::globalVariables(c("."))
