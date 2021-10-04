@@ -1,0 +1,43 @@
+---
+title: "Comparison with stats::kmeans"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{comparison_with_stats}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(KMeans)
+library(data.table)
+library(ggplot2)
+```
+
+This is a demonstration of our algorithm comparing with stats::kmeans. We will plot the total within sum of square of both algorithms on the iris dataset with cluster size 1 to 10.
+
+```{r}
+algo.list <- list(mine = apply.kmeans, stats = stats::kmeans)
+ss.dt.list <- list()
+
+for (K in 1:10) {
+  for (algo.name in names(algo.list)) {
+    algo.fun <- algo.list[[algo.name]]
+    result.list <- algo.fun(iris[,-5], K)
+    ss.dt.list[[paste(K, algo.name)]] <- data.table(
+      K, algo.name, error = result.list$tot.withinss)
+  }
+}
+
+ss.dt <- do.call(rbind, ss.dt.list)
+
+ggplot(ss.dt,aes(x=K, y=error, col=algo.name)) +
+  
+  geom_line()
+```

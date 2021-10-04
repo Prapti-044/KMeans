@@ -1,0 +1,39 @@
+---
+title: "Demo of the apply.kmeans function"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{demo}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(KMeans)
+```
+
+Let us load a demo data that we will use to demonstrate out K-Means function.
+
+```{r}
+# We will use iris dataset in this demo
+# Remove the label column from the iris dataset
+data <- iris[,-5]
+# We know that there are 3 clusters in iris dataset. So we set this to 3.
+K <- 3
+# Number of maximum iterations KMeans will run before convergance.
+iter.max <- 300
+```
+
+Now we run the `apply.kmeans` function on the dataset and inspect the output.
+
+```{r}
+result <- apply.kmeans(data, K, iter.max)
+
+str(result)
+```
